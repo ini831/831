@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>雨中的相遇 - 想见你</title>
+    <title>雨和你 - 想见你</title>
     <style>
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #0b0f14; }
         .rain { position: absolute; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
@@ -11,34 +11,55 @@
 
         .content { position: relative; z-index: 2; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; text-align: center; cursor: pointer; }
         
-        #title { font-size: 2.5rem; letter-spacing: 15px; margin-bottom: 20px; overflow: hidden; white-space: nowrap; border-right: 3px solid #fff; animation: blink 0.75s step-end infinite; }
-        @keyframes blink { 50% { border-color: transparent; } }
-
-        /* 时间戳样式 */
-        #timestamp {
-            position: fixed; left: 20px; bottom: 20px;
-            font-family: 'Courier New', monospace; color: #555;
-            font-size: 0.9rem; letter-spacing: 2px;
-        }
+        #title { font-size: 2.5rem; letter-spacing: 15px; margin-bottom: 20px; }
+        #sub-text { font-family: serif; font-size: 1.2rem; min-height: 1.5em; max-width: 80%; line-height: 1.6; }
+        
+        #timestamp { position: fixed; left: 20px; bottom: 20px; font-family: 'Courier New', monospace; color: #555; font-size: 0.9rem; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
     <div class="rain" id="rain-container"></div>
-    
     <div id="timestamp">1998 / 06 / 12 - 00:00:00</div>
 
-    <div class="content" onclick="playAudio()">
-        <h1 id="title"></h1>
-        <p id="sub-text"></p>
+    <div class="content" onclick="handleInteraction()">
+        <h1 id="title">雨 和 你</h1>
+        <p id="sub-text">穿过时间，我只为了寻找那个雨天。</p>
     </div>
 
-    <audio id="bg-audio" loop>
-        <source src="https://www.w3schools.com/howto/rain.mp3" type="audio/mpeg">
+    <audio id="bg-audio">
+        <source src="https://s21.aconvert.com/convert/p3r68-cdx67/6hlkt-g4uql.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        // 1. 雨滴效果 (保持不变)
+        const quotes = [
+            "每当那首歌响起，我就会回到那个夏天。",
+            "答案很长，我得用一生去回答，你准备好听了吗？",
+            "在莫比乌斯环里，我们始终会相遇。",
+            "雨停了，你还是没来"
+        ];
+        
+        const musicList = [
+            "https://s21.aconvert.com/convert/p3r68-cdx67/6hlkt-g4uql.mp3",
+            "https://s17.aconvert.com/convert/p3r68-cdx67/2cib0-zhyci.mp3"
+        ];
+        
+        let musicIndex = 0;
+        const audio = document.getElementById('bg-audio');
+
+        // 交互逻辑：切换音乐与台词
+        function handleInteraction() {
+            // 切换音乐
+            audio.src = musicList[musicIndex];
+            audio.play();
+            musicIndex = (musicIndex + 1) % musicList.length;
+            
+            // 切换台词
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            typeWriter(quotes[randomIndex], document.getElementById('sub-text'), 50);
+        }
+
+        // 基础功能逻辑（雨滴/打字/时间）
         const container = document.getElementById('rain-container');
         for (let i = 0; i < 100; i++) {
             const drop = document.createElement('div');
@@ -49,17 +70,9 @@
             container.appendChild(drop);
         }
 
-        // 2. 时间流动效果
-        setInterval(() => {
-            const now = new Date();
-            const year = 1998 + Math.floor(Math.random() * 25); // 在1998年到2023年间跳动
-            const timeStr = `${year} / ${String(now.getMonth()+1).padStart(2, '0')} / ${String(now.getDate()).padStart(2, '0')} - ${now.toTimeString().split(' ')[0]}`;
-            document.getElementById('timestamp').innerText = timeStr;
-        }, 100);
-
-        // 3. 打字机效果
         function typeWriter(text, element, speed) {
             let i = 0;
+            element.innerHTML = "";
             function typing() {
                 if (i < text.length) {
                     element.innerHTML += text.charAt(i);
@@ -69,10 +82,12 @@
             }
             typing();
         }
-        typeWriter("雨和你", document.getElementById('title'), 200);
-        setTimeout(() => typeWriter("穿过时间，我只为了寻找那个雨天。", document.getElementById('sub-text'), 100), 1500);
 
-        function playAudio() { document.getElementById('bg-audio').play(); }
+        setInterval(() => {
+            const year = 1998 + Math.floor(Math.random() * 25);
+            const now = new Date();
+            document.getElementById('timestamp').innerText = `${year} / ${String(now.getMonth()+1).padStart(2, '0')} / ${String(now.getDate()).padStart(2, '0')} - ${now.toTimeString().split(' ')[0]}`;
+        }, 100);
     </script>
 </body>
 </html>
