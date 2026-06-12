@@ -2,61 +2,60 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>Someday or One Day</title>
+    <title>雨中的相遇 - 想见你</title>
     <style>
-        body { 
-            margin: 0; background: #1a1a1a; color: #dcdcdc; 
-            font-family: 'PingFang SC', sans-serif; display: flex; 
-            justify-content: center; align-items: center; height: 100vh;
-            overflow: hidden;
-        }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #0b0f14; }
         
-        /* 怀旧磁带设计 */
-        .cassette {
-            width: 300px; height: 180px; background: #333;
-            border-radius: 15px; position: relative;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            display: flex; justify-content: center; align-items: center;
+        /* 雨滴效果层 */
+        .rain { position: absolute; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        .drop { position: absolute; width: 1px; height: 15px; background: rgba(200, 200, 255, 0.3); animation: fall linear infinite; }
+
+        @keyframes fall { to { transform: translateY(100vh); } }
+
+        /* 内容容器 */
+        .content { 
+            position: relative; z-index: 2; height: 100vh; display: flex; 
+            flex-direction: column; justify-content: center; align-items: center;
+            color: #fff; text-align: center;
         }
 
-        .reel {
-            width: 70px; height: 70px; border-radius: 50%;
-            border: 8px solid #555; margin: 0 20px;
-            animation: spin 4s linear infinite;
-        }
-
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        .text-box { position: absolute; bottom: -80px; text-align: center; }
-        h1 { letter-spacing: 8px; font-weight: 200; opacity: 0.8; }
-        p { font-style: italic; color: #888; }
+        h1 { font-size: 2.5rem; letter-spacing: 15px; margin-bottom: 20px; }
+        .quote { font-family: serif; font-size: 1.2rem; opacity: 0.7; cursor: pointer; transition: 0.3s; }
+        .quote:hover { opacity: 1; text-shadow: 0 0 10px #fff; }
     </style>
 </head>
 <body>
 
-    <div class="cassette">
-        <div class="reel"></div>
-        <div class="reel"></div>
-    </div>
-
-    <div class="text-box">
-        <h1 id="title">想见你</h1>
-        <p id="quote">"每当这首歌响起，我就会回到那个夏天。"</p>
+    <div class="rain" id="rain-container"></div>
+    
+    <div class="content">
+        <h1>雨 中 的 想 见</h1>
+        <p class="quote" id="text">"雨停了，你还是没来。"</p>
     </div>
 
     <script>
-        // 随机切换经典台词
-        const quotes = [
-            "所以暂时将你眼睛闭了起来...",
-            "只有你想见我的时候，我们的相遇才有意义。",
-            "在莫比乌斯环里，我们始终会相遇。",
-            "如果你出现在我的过去，那是不是代表我也在你的未来？"
+        // 生成雨滴
+        const container = document.getElementById('rain-container');
+        for (let i = 0; i < 100; i++) {
+            const drop = document.createElement('div');
+            drop.className = 'drop';
+            drop.style.left = Math.random() * 100 + '%';
+            drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
+            drop.style.animationDelay = Math.random() * 2 + 's';
+            container.appendChild(drop);
+        }
+
+        // 切换台词
+        const text = document.getElementById('text');
+        const phrases = [
+            "雨停了，你还是没来。",
+            "其实，只要我想见你，我就一定能见到你。",
+            "那是我们第一次在雨中相遇的场景。",
+            "穿过时间，我只为了寻找那个雨天。"
         ];
-        
-        document.body.addEventListener('click', () => {
-            const randomIndex = Math.floor(Math.random() * quotes.length);
-            document.getElementById('quote').innerText = quotes[randomIndex];
-        });
+        text.onclick = () => {
+            text.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+        };
     </script>
 </body>
 </html>
