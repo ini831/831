@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Someday or One Day</title>
+    <style>
+        body { 
+            margin: 0; background: #1a1a1a; color: #dcdcdc; 
+            font-family: 'PingFang SC', sans-serif; display: flex; 
+            justify-content: center; align-items: center; height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* 怀旧磁带设计 */
+        .cassette {
+            width: 300px; height: 180px; background: #333;
+            border-radius: 15px; position: relative;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .reel {
+            width: 70px; height: 70px; border-radius: 50%;
+            border: 8px solid #555; margin: 0 20px;
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .text-box { position: absolute; bottom: -80px; text-align: center; }
+        h1 { letter-spacing: 8px; font-weight: 200; opacity: 0.8; }
+        p { font-style: italic; color: #888; }
+    </style>
+</head>
+<body>
+
+    <div class="cassette">
+        <div class="reel"></div>
+        <div class="reel"></div>
+    </div>
+
+    <div class="text-box">
+        <h1 id="title">想见你</h1>
+        <p id="quote">"每当这首歌响起，我就会回到那个夏天。"</p>
+    </div>
+
+    <script>
+        // 随机切换经典台词
+        const quotes = [
+            "所以暂时将你眼睛闭了起来...",
+            "只有你想见我的时候，我们的相遇才有意义。",
+            "在莫比乌斯环里，我们始终会相遇。",
+            "如果你出现在我的过去，那是不是代表我也在你的未来？"
+        ];
+        
+        document.body.addEventListener('click', () => {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            document.getElementById('quote').innerText = quotes[randomIndex];
+        });
+    </script>
+</body>
+</html>
